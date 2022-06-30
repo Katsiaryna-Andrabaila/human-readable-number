@@ -1,7 +1,10 @@
 module.exports = function toReadable (number) {
+    let unit = number[number.length - 1];
+    let decimal = number[number.length - 2];
+    let hundred = number[number.length - 3];
+
     if (number.length === 1) {
-    let unit = number;
-    switch(unit) {
+        switch(unit) {
         case 1:
             return 'one';
         case 2:
@@ -22,27 +25,27 @@ module.exports = function toReadable (number) {
             return 'nine';
         }
     } else if (number.length === 2) {
-        let decimal = number[0];
+    
         switch (decimal) {
-            case 2:
-                return 'twenty' + unit;
-            case 3:
-                return 'thirty' + unit;
-            case 4:
-                return 'fourty' + unit;
-            case 5:
-                return 'fifty' + unit;
-            case 6:
-                return 'sixty' + unit;
-            case 7:
-                return 'seventy' + unit;
-            case 8:
-                return 'eighty' + unit;
-            case 9:
-                return 'ninety' + unit;
+        case 2:
+            return 'twenty' + unit;
+        case 3:
+            return 'thirty' + unit;
+        case 4:
+            return 'fourty' + unit;
+        case 5:
+            return 'fifty' + unit;
+        case 6:
+            return 'sixty' + unit;
+        case 7:
+            return 'seventy' + unit;
+        case 8:
+            return 'eighty' + unit;
+        case 9:
+            return 'ninety' + unit;
         }
     } else if (number.length === 3) {
-        let hundred = number[0];
+
         switch (hundred) {
             case 1:
                 return 'one hundred' + decimal + unit;
@@ -119,6 +122,6 @@ module.exports = function toReadable (number) {
                 return 'eight hundred';
             case 900:
                 return 'nine hundred';
-        }
     }
+}
 };
