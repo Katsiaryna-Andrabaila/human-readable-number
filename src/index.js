@@ -8,7 +8,7 @@ module.exports = function toReadable (number) {
         case '2':
             return 'two hundred';
         case '3':
-            return 'thee hundred';
+            return 'three hundred';
         case '4':
             return 'four hundred';
         case '5':
