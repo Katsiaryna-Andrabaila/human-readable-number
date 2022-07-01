@@ -1,10 +1,52 @@
 module.exports = function toReadable (number) {
-    let unit = number[number.length - 1];
-    let decimal = number[number.length - 2];
-    let hundred = number[number.length - 3];
+    let nStr = number.toString();
+    
+    const getHundred = (nStr) => {
+        switch(nStr[nStr.length - 3]) {
+        case 1:
+            return 'one hundred';
+        case 2:
+            return 'two hundred';
+        case 3:
+            return 'thee hundred';
+        case 4:
+            return 'four hundred';
+        case 5:
+            return 'five hundred';
+        case 6:
+            return 'six hundred';
+        case 7:
+            return 'seven hundred';
+        case 8:
+            return 'eight hundred';
+        case 9:
+            return 'nine hundred';
+        }
+    };
 
-    if (number.length === 1) {
-        switch(unit) {
+    const getDecimal = (nStr) => {
+        switch(nStr[nStr.length - 2]) {
+        case 2:
+            return 'twenty';
+        case 3:
+            return 'thirty';
+        case 4:
+            return 'fourty';
+        case 5:
+            return 'fifty';
+        case 6:
+            return 'sixty';
+        case 7:
+            return 'seventy';
+        case 8:
+            return 'eighty';
+        case 9:
+            return 'ninety';            
+        }
+    };
+
+    const getUnit = (nStr) => {
+        switch(nStr[nStr.length - 1]) {
         case 1:
             return 'one';
         case 2:
@@ -22,52 +64,12 @@ module.exports = function toReadable (number) {
         case 8:
             return 'eight';
         case 9:
-            return 'nine';
+            return 'nine';    
         }
-    } else if (number.length === 2) {
-    
-        switch (decimal) {
-        case 2:
-            return 'twenty' + unit;
-        case 3:
-            return 'thirty' + unit;
-        case 4:
-            return 'fourty' + unit;
-        case 5:
-            return 'fifty' + unit;
-        case 6:
-            return 'sixty' + unit;
-        case 7:
-            return 'seventy' + unit;
-        case 8:
-            return 'eighty' + unit;
-        case 9:
-            return 'ninety' + unit;
-        }
-    } else if (number.length === 3) {
+    };
 
-        switch (hundred) {
-            case 1:
-                return 'one hundred' + decimal + unit;
-            case 2:
-                return 'two hundred' + decimal + unit;
-            case 3:
-                return 'thee hundred' + decimal + unit;
-            case 4:
-                return 'four hundred' + decimal + unit;
-            case 5:
-                return 'five hundred' + decimal + unit;
-            case 6:
-                return 'six hundred' + decimal + unit;
-            case 7:
-                return 'seven hundred' + decimal + unit;
-            case 8:
-                return 'eight hundred' + decimal + unit;
-            case 9:
-                return 'nine hundred' + decimal + unit;
-        }
-    } else {
-        switch(number) {
+    const getTeen = (nStr) => {
+        switch(nStr[nStr.slice(1)]) {
             case 10:
                 return 'ten';
             case 11:
@@ -88,40 +90,29 @@ module.exports = function toReadable (number) {
                 return 'eighteen';
             case 19:
                 return 'nineteen';
-            case 20:
-                return 'twenty';
-            case 30:
-                return 'thirty';
-            case 40:
-                return 'fourty';
-            case 50:
-                return 'fifty';
-            case 60:
-                return 'sixty';
-            case 70:
-                return 'seventy';
-            case 80:
-                return 'eighty';
-            case 90:
-                return 'ninety';
-            case 100:
-                return 'one hundred';
-            case 200:
-                return 'two hundred';
-            case 300:
-                return 'three hundred';
-            case 400:
-                return 'four hundred';
-            case 500:
-                return 'five hundred';
-            case 600:
-                return 'six hundred';
-            case 700:
-                return 'seven hundred';
-            case 800:
-                return 'eight hundred';
-            case 900:
-                return 'nine hundred';
+        }
+    };
+
+    switch(nStr) {
+        case (nStr.length === 3 && nStr[1] === '0' && nStr[2] === '0'):
+            return getHundred(nStr);
+        case (nStr.length === 3 && nStr[1] === '0' && nStr[2] !== '0'):
+            return (getHundred(nStr) + getUnit(nStr));
+        case (nStr.length === 3 && nStr[1] !== '0' && nStr[1] !== '1' && nStr[2] === '0'):
+            return (getHundred(nStr) + getDecimal(nStr));
+        case (nStr.length === 3 && nStr[1] === '1'):
+            return (getHundred(nStr) + getTeen(nStr));
+        case (nStr.length === 3 && nStr[1] !== '0' && nStr[1] !== '1' && nStr[2] !== '0'):
+            return (getHundred(nStr) + getDecimal(nStr) + getUnit(nStr));
+        case (nStr.length === 2 && nStr[0] !== '1' && nStr[1] === '0'):
+            return getDecimal(nStr);
+        case (nStr.length === 2 && nStr[0] !== '1' && nStr[1] !== '0'):
+            return (getDecimal(nStr) + getUnit(nStr));
+        case (nStr.length === 2 && nStr[0] === '1'):
+            return getTeen(nStr);
+        case (nStr.length === 1 && nStr !== '0'):
+            return getUnit(nStr);
+        case (nStr.length === 1 && nStr === '0'):
+            return 'zero';
     }
-}
 };
